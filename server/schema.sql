@@ -10,14 +10,21 @@ CREATE TABLE users (
   PRIMARY KEY (ID)
 );
 
+CREATE TABLE rooms (
+  ID int AUTO_INCREMENT,
+  NAME varchar(50),
+  PRIMARY KEY (ID)
+);
 
 CREATE TABLE messages (
   /* Describe your table here.*/
   ID int AUTO_INCREMENT,
   TEXT varchar(255),
   USER int,
+  ROOM int,
   PRIMARY KEY (id),
-  FOREIGN KEY (user) REFERENCES users(id)
+  FOREIGN KEY (user) REFERENCES users(id),
+  FOREIGN KEY (room) REFERENCES rooms(id)
 );
 
 /* Create other tables and define schemas for them here! */
