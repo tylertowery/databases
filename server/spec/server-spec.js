@@ -22,7 +22,7 @@ describe('Persistent Node Chat Server', () => {
      * (or repeated runs of the tests)  will not fail when they should be passing
      * or vice versa */
     dbConnection.query(`truncate ${tablename}`, done);
-  }, 6500);
+  }, 5000);
 
   afterAll(() => {
     dbConnection.end();
@@ -43,20 +43,20 @@ describe('Persistent Node Chat Server', () => {
 
         /* TODO: You might have to change this test to get all the data from - DONE
          * your message table, since this is schema-dependent. */
+        console.log('able to post');
         const queryString = 'SELECT * FROM messages';
         const queryArgs = [];
 
         dbConnection.query(queryString, queryArgs, (err, results) => {
+
           if (err) {
             throw err;
           }
-
-          console.log('result from query: ', results);
           // Should have one result:
           expect(results.length).toEqual(1);
 
           // TODO: If you don't have a column named text, change this test. - DONE
-          expect(results[0].text).toEqual(message);
+          expect(results[0].TEXT).toEqual(message);
           done();
         });
       })
@@ -92,8 +92,9 @@ describe('Persistent Node Chat Server', () => {
         axios.get(`${API_URL}/messages`)
           .then((response) => {
             const messageLog = response.data;
-            expect(messageLog[0].text).toEqual(message);
-            expect(messageLog[0].roomname).toEqual(roomname);
+            console.log('line 94', messageLog);
+            expect(messageLog[1].TEXT).toEqual(message);
+            expect(messageLog[1].ROOM).toEqual(roomname);
             done();
           })
           .catch((err) => {
